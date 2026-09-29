@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tư tưởng Hồ Chí Minh về Nhà nước</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Segoe UI",Roboto,"Helvetica Neue",sans-serif}
+:root{
+  --red1:#D81E05;
+  --red2:#B01804;
+  --red3:#7A0810;
+  --gold1:#FFD600;
+  --gold2:#F5B800;
+  --gold3:#E0A000;
+  --cream:#FFF8DC;
+  --light:#FFF;
+  --shadow-gold:0 0 20px rgba(255,214,0,0.6),0 0 40px rgba(255,180,0,0.35);
+  --shadow-soft:0 8px 32px rgba(0,0,0,0.15);
+}
+html,body{height:100%}
+body{background:linear-gradient(135deg,#6E0909 0%,#A01010 50%,#7A0810 100%);overflow:hidden;color:#fff}
+
+/* Nền cờ */
+.bg{position:fixed;inset:0;background:
+  radial-gradient(circle at 25% 35%, rgba(255,214,0,0.18) 0%, transparent 55%),
+  linear-gradient(180deg, #900E0E 0%, #600606 100%);z-index:-2}
+
+/* Sợi lụa tung bay */
+.silk{position:fixed;pointer-events:none;animation:wave 9s ease-in-out infinite alternate;z-index:-1}
+.silk.t{top:0;left:0;transform-origin:0 0}.silk.b{bottom:0;right:0;transform-origin:100% 100%}
+.silk.b svg{transform:rotate(180deg)}
+@keyframes wave{
+  0%{transform:scale(1,1) skewX(0deg)}
+  100%{transform:scale(1.08,1.15) skewX(-4deg)}
+}
+
+/* Ngôi sao vàng lấp lánh */
+.gs{filter:drop-shadow(0 0 14px rgba(255,214,0,0.7)) drop-shadow(0 0 6px rgba(255,214,0,0.9));animation:glow 3s ease-in-out infinite alternate}
+.gs svg{width:100%;display:block}
+.gs.big{width:min(260px,60vw);margin:0 auto}
+@keyframes glow{
+  from{filter:drop-shadow(0 0 12px rgba(255,214,0,0.55)) drop-shadow(0 0 4px rgba(255,214,0,0.7))}
+  to{filter:drop-shadow(0 0 22px rgba(255,214,0,0.8)) drop-shadow(0 0 10px rgba(255,180,0,0.9))}
+}
+
+/* Bố cục chính */
+.wrap{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;padding:max(16px,3vh) 20px}
+.bar{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.bar h2{font-size:clamp(1.1rem,3vw,1.5rem);font-weight:600;letter-spacing:0.5px;color:var(--cream);text-shadow:0 2px 4px rgba(0,0,0,0.2)}
+.score{margin-left:auto;font-size:1.2rem;font-weight:700;color:var(--gold1);text-shadow:0 0 8px rgba(255,214,0,0.4)}
+
+/* Thanh tiến độ */
+.pgw{margin:24px 0;height:10px;background:rgba(255,255,255,0.15);border-radius:10px;overflow:hidden;position:relative}
+.prog{height:100%;background:linear-gradient(90deg,var(--gold2),var(--gold1));border-radius:10px;transition:width 0.6s ease-out;box-shadow:0 0 10px rgba(255,214,0,0.5);width:0}
+.pd{position:absolute;top:-2px;transform:translateX(-50%);transition:left 0.6s ease-out;filter:drop-shadow(0 0 6px rgba(255,214,0,0.6))}
+
+/* Khối thẻ câu hỏi */
+.stage{flex:1;display:flex;align-items:center;justify-content:center;padding:20px 0}
+.card{background:rgba(255,255,255,0.96);color:#222;border-radius:20px;padding:clamp(24px,5vw,36px);max-width:520px;width:100%;box-shadow:var(--shadow-soft);transform-style:preserve-3d;transition:transform 0.12s ease-out, opacity 0.3s ease;opacity:0}
+.card.pop{animation:popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards}
+@keyframes popIn{
+  0%{opacity:0;transform:translateY(20px) scale(0.9)}
+  100%{opacity:1;transform:translateY(0) scale(1)}
+}
+.center{text-align:center}
+.title{font-size:clamp(1.4rem,4vw,2rem);color:var(--red2);margin-bottom:10px;line-height:1.3}
+.sub{color:#555;line-height:1.6;margin-bottom:28px}
+.qn{font-size:0.9rem;color:#888;font-weight:500;margin-bottom:10px}
+.q{font-size:clamp(1rem,3vw,1.25rem);font-weight:600;margin-bottom:24px;line-height:1.5;color:#333}
+
+/* Nút chọn đáp án */
+.opts{display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
+.opt{display:flex;align-items:flex-start;gap:12px;padding:16px 18px;border:2px solid #E5E5E5;border-radius:14px;background:#fff;cursor:pointer;text-align:left;transition:all 0.25s ease;font-size:1rem;line-height:1.5}
+.opt b{color:var(--red2);font-weight:700;min-width:24px;display:inline-block}
+.opt:hover{border-color:var(--gold2);background:linear-gradient(135deg,#FFF9E0,#FFF);transform:translateY(-2px);box-shadow:0 4px 12px rgba(255,180,0,0.15)}
+.opt.ok{border-color:#22C55E;background:#F0FDF4;pointer-events:none}
+.opt.no{border-color:#EF4444;background:#FEF2F2;pointer-events:none}
+.opts.done .opt{pointer-events:none}
+
+/* Điền từ */
+.words{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:16px}
+.word{display:flex;gap:6px}
+.lt{width:clamp(32px,9vw,42px);height:50px;text-align:center;font-size:1.25rem;font-weight:600;border:2px solid #DDD;border-radius:10px;background:#FAFAFA;outline:none;transition:all 0.2s ease;text-transform:uppercase}
+.lt:focus{border-color:var(--gold2);background:#FFF;box-shadow:0 0 0 3px rgba(255,214,0,0.25)}
+.lt.ok{border-color:#22C55E;background:#F0FDF4;color:#166534;animation:shakeOk 0.4s ease}
+.lt.no{border-color:#EF4444;background:#FEF2F2;color:#991B1B}
+@keyframes shakeOk{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-4px)}
+  75%{transform:translateX(4px)}
+}
+.hint{text-align:center;color:#777;font-size:0.9rem;margin-bottom:16px}
+
+/* Nút chung */
+.btn{padding:14px 32px;font-size:1rem;font-weight:600;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold2),var(--gold3));color:#5C3A00;cursor:pointer;transition:all 0.25s ease;box-shadow:0 4px 12px rgba(255,180,0,0.3)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,180,0,0.4)}
+.btn:active{transform:translateY(0)}
+.fill,.next{text-align:center;margin-top:16px;opacity:0;transform:translateY(10px);transition:all 0.3s ease}
+.next.show,.note.show{opacity:1;transform:translateY(0)}
+
+/* Giải thích */
+.note{margin-top:16px;padding:14px;background:#F8F9FA;border-radius:12px;line-height:1.6;color:#444}
+.note b{color:var(--red2)}
+
+/* Hạt sáng & pháo hoa */
+#fx{position:fixed;inset:0;pointer-events:none;z-index:10}
+
+/* Chim bồ câu bay */
+.dv{position:fixed;pointer-events:none;z-index:8;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.2))}
+.dv svg{width:100%;display:block;overflow:visible}
+.wing{transform-origin:50% 45%;animation:flap 0.38s ease-in-out infinite alternate}
+.wing.r{animation-delay:-0.1s}
+@keyframes flap{
+  0%{transform:rotate(-12deg) scaleY(0.9)}
+  100%{transform:rotate(18deg) scaleY(1.05)}
+}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="silk t"><svg viewBox="0 0 400 220"><defs><linearGradient id="sgt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF3B3B" stop-opacity=".8"/><stop offset="1" stop-color="#7A0810" stop-opacity=".1"/></linearGradient></defs><path d="M0,0H400C340,50 300,120 210,130C140,138 80,100 0,215Z" fill="url(#sgt)"/><path d="M0,0H290C240,40 200,85 130,92C80,96 40,75 0,140Z" fill="#FF8A70" fill-opacity=".18"/></svg></div>
+<div class="silk b"><svg viewBox="0 0 400 220"><defs><linearGradient id="sgb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF3B3B" stop-opacity=".8"/><stop offset="1" stop-color="#7A0810" stop-opacity=".1"/></linearGradient></defs><path d="M0,0H400C340,50 300,120 210,130C140,138 80,100 0,215Z" fill="url(#sgb)"/><path d="M0,0H290C240,40 200,85 130,92C80,96 40,75 0,140Z" fill="#FF8A70" fill-opacity=".18"/></svg></div>
+<canvas id="fx"></canvas>
+
+<div class="wrap">
+  <div class="bar">
+    <div class="gs" id="hs" style="width:50px;flex:none"></div>
+    <h2>TƯ TƯỞNG HỒ CHÍ MINH VỀ NHÀ NƯỚC</h2>
+    <div class="score" id="score">⭐ 0</div>
+  </div>
+  <div class="pgw"><div class="prog"><i id="pg"></i></div><div class="pd" id="pd"></div></div>
+  <div class="stage"><div class="card pop" id="card"></div></div>
+</div>
+
+<script>
+const Q=[
+{q:"Theo quan điểm Hồ Chí Minh, Nhà nước mới mang bản chất gì?",o:["Giai cấp công nhân","Giai cấp nông dân","Giai cấp công nhân và nông dân","Giai cấp công nhân, nông dân và tri thức"],a:0,n:"Nhà nước mới mang bản chất giai cấp công nhân, đồng thời là nhà nước của dân, do dân, vì dân."},
+{q:"Hồ Chí Minh đã lựa chọn và xác lập mô hình Nhà nước kiểu mới ở Việt Nam dựa trên những cơ sở nào?",o:["Chỉ dựa trên mô hình Nhà nước Xô viết","Truyền thống dân tộc, tiếp thu tư tưởng Đông – Tây và chủ nghĩa Mác – Lênin","Chỉ dựa trên truyền thống văn hóa Việt Nam","Chỉ dựa trên tư tưởng dân chủ phương Tây"],a:1,n:"Mô hình được xây dựng trên sự kết hợp truyền thống dân tộc, tinh hoa Đông – Tây và chủ nghĩa Mác – Lênin."},
+{q:"Theo tư tưởng Hồ Chí Minh, nội dung nào thể hiện đúng nhất “Nhà nước do dân”?",o:["Nhân dân là chủ, mọi quyền lực thuộc về nhân dân","Nhà nước phục vụ lợi ích và nguyện vọng chính đáng của nhân dân","Nhân dân lựa chọn, bầu ra đại biểu và tham gia xây dựng, kiểm soát, giám sát Nhà nước","Nhà nước tập trung quyền lực để quản lý xã hội"],a:2,n:"“Do dân” là nhân dân bầu ra đại biểu, tham gia xây dựng, kiểm soát và giám sát Nhà nước."},
+{q:"Đặc điểm nào sau đây thể hiện đúng nhất “Nhà nước vì dân” theo tư tưởng Hồ Chí Minh?",o:["Nhà nước tập trung quyền lực để điều hành đất nước","Nhà nước phục vụ lợi ích và nguyện vọng chính đáng của nhân dân","Nhân dân trực tiếp quyết định mọi vấn đề của Nhà nước","Nhân dân bầu ra các đại biểu để thay mặt mình"],a:1,n:"“Vì dân” nghĩa là mọi hoạt động của Nhà nước nhằm phục vụ lợi ích và nguyện vọng chính đáng của nhân dân."},
+{q:"Điền vào chỗ trống: “Bản chất giai cấp công nhân của Nhà nước ta thể hiện ở nguyên tắc tổ chức và hoạt động cơ bản là …”",fill:true,a:"tập trung dân chủ",n:"Đáp án: nguyên tắc tập trung dân chủ."}
+];
+
+const $=id=>document.getElementById(id),card=$("card");
+const W=["tập","trung","dân","chủ"],L=[...W.join("")];
+let i=0,score=0;
+const norm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/[^a-z ]/g," ").replace(/\s+/g," ").trim();
+
+// --- SVG NGÔI SAU VÀNG CHUẨN ---
+function starSVG(){
+  const R=90, r=38, cx=100, cy=100;
+  let pts=[];
+  for(let k=0;k<10;k++){
+    const ang=(k*36-90)*Math.PI/180;
+    const rk=k%2===0?R:r;
+    pts.push(`${cx+rk*Math.cos(ang)},${cy+rk*Math.sin(ang)}`);
+  }
+  return `<svg viewBox="0 0 200 200" width="100%" height="100%">
+    <defs>
+      <linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FFE600"/>
+        <stop offset="50%" stop-color="#FFD600"/>
+        <stop offset="100%" stop-color="#F0B800"/>
+      </linearGradient>
+      <filter id="sgf">
+        <feGaussianBlur stdDeviation="2.5" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <polygon points="${pts.join(" ")}" fill="url(#sg)" stroke="#FFC800" stroke-width="1.5" filter="url(#sgf)"/>
+  </svg>`;
+}
+
+// --- SVG CHIM BỒ CÂU THẬT TỰ NHIÊN ---
+function doveSVG(){
+  return `<svg viewBox="0 0 64 40" width="64" height="40">
+    <defs>
+      <linearGradient id="dvb" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#FFFFFF"/>
+        <stop offset="100%" stop-color="#E8E8F0"/>
+      </linearGradient>
+      <linearGradient id="dvw" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#F8F8F8"/>
+        <stop offset="100%" stop-color="#D8D8E0"/>
+      </linearGradient>
+    </defs>
+    <!-- Cơ thể -->
+    <ellipse cx="32" cy="24" rx="22" ry="13" fill="url(#dvb)"/>
+    <ellipse cx="48" cy="18" rx="11" ry="9" fill="url(#dvb)"/>
+    <!-- Đầu & mỏ -->
+    <circle cx="54" cy="14" r="7" fill="#FFFFFF"/>
+    <path d="M60,13 L64,14 L60,16 Z" fill="#FF9E00"/>
+    <circle cx="56" cy="12" r="1.2" fill="#222"/>
+    <!-- Cánh trái -->
+    <g class="wing">
+      <path d="M16,20 C10,12 18,4 30,10 C26,16 22,20 18,22 Z" fill="url(#dvw)" stroke="#D0D0D8" stroke-width="0.5"/>
+    </g>
+    <!-- Cánh phải -->
+    <g class="wing r">
+      <path d="M38,14 C44,6 52,8 50,16 C44,14 38,16 36,18 Z" fill="url(#dvw)" stroke="#D0D0D8" stroke-width="0.5"/>
+    </g>
+    <!-- Đuôi -->
+    <path d="M10,26 L4,22 L8,28 Z" fill="#F0F0F8"/>
+  </svg>`;
+}
+
+function show(html){card.classList.remove("pop");void card.offsetWidth;card.innerHTML=html;card.classList.add("pop")}
+function intro(){
+  i=0;score=0;$("score").textContent="⭐ 0";setP(0);
+  show(`<div class="center"><div class="gs big">${starSVG()}</div>
+    <h1 class="title">Đố vui: Nhà nước của dân, do dân, vì dân</h1>
+    <p class="sub">5 câu hỏi về tư tưởng Hồ Chí Minh về Nhà nước mới.<br>Trả lời đúng để thắp sáng ngôi sao vàng!</p>
+    <button class="btn" id="go">Bắt đầu chơi</button></div>`);
+  $("go").onclick=ask;
+}
+
+function ask(){
+  const d=Q[i];setP(i/Q.length);fly(i);
+  let body;
+  if(d.fill){
+    body=`<div class="words">${W.map(w=>`<div class="word">${[...w].map(()=>`<input class="lt" autocomplete="off" autocapitalize="off" spellcheck="false">`).join("")}</div>`).join("")}</div>
+    <p class="hint">Điền từng chữ cái, không cần gõ dấu (${L.length} ô)</p>
+    <div class="fill"><button class="btn" id="ok">Kiểm tra</button></div>`;
+  }else{
+    body=`<div class="opts" id="opts">${d.o.map((t,k)=>`<button class="opt" data-k="${k}"><b>${"ABCD"[k]}</b><span>${t}</span></button>`).join("")}</div>`;
+  }
+  show(`<div class="qn">Câu ${i+1} / ${Q.length}</div><div class="q">${d.q}</div>${body}
+  <div class="note" id="note"></div>
+  <div class="next" id="next"><button class="btn" id="nx">${i<Q.length-1?"Câu tiếp theo":"Xem kết quả"}</button></div>`);
+  $("nx").onclick=()=>{i++;i<Q.length?ask():end()};
+
+  if(d.fill){
+    const bx=[...document.querySelectorAll(".lt")];
+    const chk=()=>{
+      if(bx.some(b=>!b.value)) return bx.find(b=>!b.value).focus();
+      let all=true;
+      bx.forEach((b,k)=>{
+        const good=norm(b.value)===norm(L[k]);
+        if(!good)all=false;
+        b.value=L[k];b.disabled=true;
+        b.classList.add(good?"ok":"no");
+      });
+      $("ok").style.display="none";
+      finish(all,bx[bx.length>>1]);
+    };
+    bx.forEach((b,k)=>{
+      b.addEventListener("input",e=>{
+        if(e.isComposing)return;
+        const v=[...b.value].pop()||"";b.value=v;
+        if(v&&k<bx.length-1)bx[k+1].focus();
+      });
+      b.addEventListener("keydown",e=>{
+        if(e.key==="Backspace"&&!b.value&&k>0){bx[k-1].value="";bx[k-1].focus();}
+        else if(e.key==="ArrowLeft"&&k>0)bx[k-1].focus();
+        else if(e.key==="ArrowRight"&&k<bx.length-1)bx[k+1].focus();
+        else if(e.key==="Enter")chk();
+      });
+    });
+    $("ok").onclick=chk;bx[0].focus();
+  }else{
+    document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+      const k=+b.dataset.k;$("opts").classList.add("done");
+      const ok=k===d.a;
+      b.classList.add(ok?"ok":"no");
+      if(!ok)document.querySelector(`.opt[data-k="${d.a}"]`).classList.add("ok");
+      finish(ok,b);
+    });
+  }
+}
+
+function finish(ok,el){
+  const d=Q[i];
+  if(ok){score++;$("score").textContent="⭐ "+score;
+    const r=el.getBoundingClientRect();
+    burst(r.left+r.width/2,r.top+r.height/2);
+    launch(r.left+r.width/2,r.top);
+  }
+  const n=$("note");
+  n.innerHTML=(ok?"✅ <b>Chính xác!</b> ":"❌ <b>Chưa đúng.</b> ")+d.n;
+  n.classList.add("show");$("next").classList.add("show");
+}
+
+function end(){
+  setP(1);
+  for(let k=0;k<5;k++)setTimeout(()=>fly(k),k*350);
+  const t=score===5?"Xuất sắc! Bạn nắm vững tư tưởng Hồ Chí Minh":
+          score>=3?"Khá tốt! Cố thêm chút nữa nhé":
+          "Hãy ôn lại và thử lần nữa";
+  show(`<div class="center"><div class="gs big">${starSVG()}</div>
+    <div class="big" style="font-size:3rem;font-weight:800;color:var(--gold2);margin:12px 0">${score}/${Q.length}</div>
+    <h1 class="title">${t}</h1>
+    <p class="sub">Nhà nước ta là Nhà nước của dân, do dân, vì dân.</p>
+    <button class="btn" id="re">Chơi lại</button></div>`);
+  $("re").onclick=intro;
+  if(score>=3)for(let k=0;k<5;k++)setTimeout(()=>
+    burst(innerWidth*(.15+Math.random()*.7),innerHeight*(.2+Math.random()*.4)),k*250);
+}
+
+// Hiệu ứng 3D theo chuột
+addEventListener("pointermove",e=>{
+  const r=card.getBoundingClientRect();
+  const x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+  if(x<-.2||x>1.2||y<-.2||y>1.2){card.style.transform="";return;}
+  card.style.transform=`rotateY(${(x-.5)*8}deg) rotateX(${(.5-y)*6}deg)`;
+});
+
+// Hạt sáng & pháo hoa vàng
+const cv=$("fx"),cx=cv.getContext("2d");let P=[];
+function rs(){cv.width=innerWidth*devicePixelRatio;cv.height=innerHeight*devicePixelRatio;
+  cx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}
+rs();addEventListener("resize",rs);
+for(let k=0;k=50;k++)P.push({
+  x:Math.random()*innerWidth,y:Math.random()*innerHeight,
+  vx:(Math.random()-.5)*.2,vy:-.15-Math.random()*.5,
+  r:1+Math.random()*2.5,l:1,amb:1
+});
+function burst(x,y){for(let k=0;k=80;k++){
+  const a=Math.random()*Math.PI*2,s=2+Math.random()*7;
+  P.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,r:1.5+Math.random()*3,l:1,g:.15})
+}}
+(function loop(){
+  cx.clearRect(0,0,innerWidth,innerHeight);cx.globalCompositeOperation="lighter";
+  P=P.filter(p=>{
+    p.x+=p.vx;p.y+=p.vy;if(p.g){p.vy+=p.g;p.l-=.018}
+    if(p.amb&&p.y<-5){p.y=innerHeight+5;p.x=Math.random()*innerWidth}
+    if(p.l<=0)return false;
+    cx.beginPath();
+    cx.fillStyle=`rgba(255,215,0,${p.l*.7})`;
+    cx.shadowColor="#FFD600";cx.shadowBlur=10;
+    cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fill();return true;
+  });
+  requestAnimationFrame(loop);
+})();
+
+// Chim bay
+const FL=[[[-15,65],[50,15],[115,30]],[[115,20],[50,60],[-15,10]],[[-15,10],[45,55],[115,70]],[[115,75],[60,25],[-15,40]],[[-15,50],[50,5],[115,10]]];
+function fly(n,dl=0){
+  const [a,b,c]=FL[n%5],f=c[0]<a[0]?-1:1;
+  const t=q=>`translate(${q[0]}vw,${q[1]}vh) scaleX(${f})`;
+  const d=document.createElement("div");d.className="dv";d.innerHTML=doveSVG();
+  document.body.appendChild(d);
+  d.animate([{transform:t(a)},{transform:t(b)},{transform:t(c)}],
+    {duration:6000,easing:"ease-in-out",delay:dl,fill:"backwards"}
+  ).onfinish=()=>d.remove();
+}
+function launch(x,y){
+  for(let k=-1;k<=1;k++){
+    const d=document.createElement("div");d.className="dv";d.innerHTML=doveSVG();
+    document.body.appendChild(d);
+    d.animate([
+      {transform:`translate(${x-32}px,${y}px)`,opacity:1},
+      {transform:`translate(${x-32+k*150}px,${y-300-k*30}px)`,opacity:0}
+    ],{duration:2000,easing:"ease-out"}).onfinish=()=>d.remove();
+  }
+}
+function setP(p){$("pg").style.width=p*100+"%";$("pd").style.left=`calc(${p*100}% - 32px)`;}
+
+$("hs").innerHTML=starSVG();$("pd").innerHTML=doveSVG();
+intro();
+</script>
+</body>
+</html>
